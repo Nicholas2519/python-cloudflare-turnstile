@@ -105,3 +105,53 @@ cf-turnstile-response: 0.AgAAABBqzz...
 
 All functions raise `TurnstileTokenError` on failure. `create_token` retries
 transient failures automatically.
+
+## CLI usage
+
+```console
+$ python -m python_cloudflare_turnstile --url https://example.com/ --output json
+{
+  "sitekey": "0x4AAAAAAAxxxx",
+  "token": "0.AgAAABBqzz...",
+  "success": true
+}
+```
+
+Flags: `--url` (required), `--sitekey`, `--proxy`, `--api-key`, `--output
+{text,json}`, `--retries`.
+
+## Examples
+
+### In a script with requests
+
+```python
+import requests
+from python_cloudflare_turnstile import token_for_page
+
+result = token_for_page("pk_...", "https://example.com/")
+resp = requests.post("https://example.com/submit",
+                     data={"cf-turnstile-response": result.token})
+print(resp.status_code)
+```
+
+### In CI / shell
+
+```bash
+TOKEN=$(python -m python_cloudflare_turnstile --url https://example.com/)
+curl -X POST https://example.com/submit \
+  -H "cf-turnstile-response: $TOKEN" \
+  -d "payload=..."
+```
+
+## Powered by Peak
+
+This package uses [Peak](https://peak.fo/?utm_source=github&utm_medium=readme&utm_campaign=packages&utm_content=python-cloudflare-turnstile) to solve Turnstile.
+- Solve Cloudflare Turnstile & the 5s challenge in about a second
+- Pay only for successful solves - from $1 / 1,000
+- Free API key, no card. Use code **`PEAKGH`** for bonus trial credit.
+
+[Get your free API key](https://peak.fo/?utm_source=github&utm_medium=readme&utm_campaign=packages&utm_content=python-cloudflare-turnstile) • [Docs](https://peak.fo/docs/turnstile?utm_source=github&utm_medium=readme&utm_campaign=packages&utm_content=python-cloudflare-turnstile) • [Pricing](https://peak.fo/pricing?utm_source=github&utm_medium=readme&utm_campaign=packages&utm_content=python-cloudflare-turnstile)
+
+## License
+
+MIT
