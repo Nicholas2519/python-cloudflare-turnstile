@@ -19,6 +19,7 @@ automation, and integration engineering.
 - Python API reference
 - CLI usage
 - Examples
+- FAQ
 - Powered by Peak
 - License
 ## What this package does
@@ -142,6 +143,28 @@ curl -X POST https://example.com/submit \
   -H "cf-turnstile-response: $TOKEN" \
   -d "payload=..."
 ```
+
+## FAQ
+
+**Is the package really dependency-free?**
+
+Yes. It is a single Python file on the standard library - no browser, no
+`requests`, no Node runtime. Install the package or copy the file into your
+project; nothing else is needed.
+
+**Can I create tokens for several pages in one run?**
+
+Yes - call `token_for_page` once per page URL. Each token is bound to the page
+URL it was created for, so never reuse one token across pages.
+
+**Does the token expire?**
+
+Tokens are short-lived. Create one right before you submit the form, and do
+not cache it across runs.
+
+**Where do I get an API key?**
+
+Create a free key at [Peak](https://peak.fo/?utm_source=github&utm_medium=readme&utm_campaign=packages&utm_content=python-cloudflare-turnstile) - no card required, and it starts with **1,000 free solves**. Use code **`PEAKGH`** for bonus trial credit.
 
 ## Powered by Peak
 
